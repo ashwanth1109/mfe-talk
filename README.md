@@ -3,7 +3,7 @@
 ## Minimal example with parcel bundler (bonus)
 
 This section is to give an introduction on how run-time integration can be achieved with any bundler.
-It helps you understand some of the challenges solved by webpack MFE. Feel free to skip this if you're not interested.
+It helps you understand some challenges solved by webpack MFE. Feel free to skip this if you're not interested.
 
 [Link to example](./minimal-example)
 
