@@ -1,5 +1,9 @@
 # Building React MFE using Webpack Module Federation
 
+Table of contents:
+
+- [Creating container](#Creating container)
+
 ## Minimal example with parcel bundler (bonus)
 
 This section is to give an introduction on how run-time integration can be achieved with any bundler.
@@ -170,3 +174,11 @@ const App = () => {
 
 render(<App />, document.getElementById("root"));
 ```
+
+## Creating header
+
+- Create a header directory in the root of the repo
+- Copy paste `config` `public` and `src` directory from container to header
+- Copy paste `package.json` and `tsconfig.json` from container to header
+- Run `npm i` on the header directory
+- Change port in `webpack.dev.js` to 8001

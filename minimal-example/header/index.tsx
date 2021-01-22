@@ -1,12 +1,13 @@
 import React from "react";
 import { render } from "react-dom";
 
+const Header = () => (
+  <div style={{ height: "60px", background: "dodgerblue" }} />
+);
+
 (() => {
   const mount = (id: string) => {
-    render(
-      <div style={{ height: "60px", background: "black" }} />,
-      document.getElementById(id)
-    );
+    render(<Header />, document.getElementById(id));
   };
 
   window["mountHeader"] = mount;
