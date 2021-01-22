@@ -1,10 +1,5 @@
 {
   "compilerOptions": {
-    "sourceMap": true,
-    "strict": true,
-    "jsx": "react",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
-  },
-  "include": ["src/**/*"]
+    "jsx": "react"
+  }
 }

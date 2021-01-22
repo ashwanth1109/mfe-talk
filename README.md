@@ -1,184 +1,142 @@
-# Building React MFE using Webpack Module Federation
+# Understanding MFE under the hood using Parcel bundler
 
-Table of contents:
+## Building `container`
 
-- [Creating container](#Creating container)
+`mkdir container && cd container && npm init -y && tsc --init && npm i -D parcel-bundler && npm i react react-dom`
 
-## Minimal example with parcel bundler (bonus)
-
-This section is to give an introduction on how run-time integration can be achieved with any bundler.
-It helps you understand some challenges solved by webpack MFE. Feel free to skip this if you're not interested.
-
-[Link to example](./minimal-example)
-
-## Creating container
-
-### Installing dependencies
-
-```shell script
-mkdir container && cd container
-npm init -y
-npm i react@17.0.1 react-dom@17.0.1 react-router-dom@5.2.0 @emotion/react@11.1.4 @emotion/styled@11.0.0 @material-ui/core@4.11.2 rxjs@6.6.3
-npm i -D ts-node@9.1.1 typescript@4.1.3
-npm i -D webpack@5.11.1 webpack-cli@4.3.1 webpack-dev-server@3.11.1 webpack-merge@5.7.3 html-webpack-plugin@4.5.1
-npm i -D @babel/core@7.12.10 @babel/preset-react@7.12.10 @babel/preset-typescript@7.12.7 babel-loader@8.2.2
-npm i -D @types/node@14.14.20 @types/react@17.0.0 @types/react-dom@17.0.0 @types/react-router-dom@5.1.7
-tsc --init
-```
-
-Add scripts to `package.json`,
-
-```json
-{
-  "scripts": {
-    "start": "webpack serve --config config/webpack.dev.js",
-    "build": "webpack --config config/webpack.prod.js"
-  }
-}
-```
-
-Replace `tsconfig.json`
+Update tsconfig.json
 
 ```json
 {
   "compilerOptions": {
-    "sourceMap": true,
-    "strict": true,
-    "jsx": "react",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
-  },
-  "include": ["src/**/*"]
+    "jsx": "react"
+  }
 }
 ```
 
-### Add webpack config to `config` directory
-
-Add webpack.common.js config
-
-```js
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-
-module.exports = {
-  // starting point of application, and here webpack starts bundling
-  entry: "./src/index",
-  // options for resolving module requests
-  resolve: {
-    // extensions that are allowed when resolving modules (in order)
-    extensions: [".ts", ".tsx", ".js", ".jsx"],
-    // directories where to look for modules (in order)
-    modules: [path.resolve(__dirname, "src"), "node_modules"],
-  },
-  // configuration regarding modules
-  module: {
-    // rules for modules (configure loaders, parser options, etc.)
-    rules: [
-      {
-        // Conditions:
-        test: /\.tsx?$/,
-        // package allows transpiling JavaScript files using Babel and webpack.
-        loader: "babel-loader",
-        // exclude babel-loader from transpiling files from node_modules
-        exclude: /node_modules/,
-        options: {
-          // preset - an assembly of pre-existing set of plugins
-          presets: ["@babel/preset-react", "@babel/preset-typescript"],
-        },
-      },
-    ],
-  },
-  // plugins that extend webpack core functionality
-  plugins: [
-    // simplifies creation of HTML files to serve your webpack bundles.
-    // useful for webpack bundles that include a hash in the filename.
-    new HtmlWebpackPlugin({
-      // supply base template for plugin to generate HTML from
-      template: "./public/index.html",
-    }),
-  ],
-};
-```
-
-Add webpack.dev.js config
-
-```js
-const { merge } = require("webpack-merge");
-const commonConfig = require("./webpack.common");
-
-module.exports = () => {
-  const devConfig = {
-    mode: "development",
-    output: {
-      // where webpack will output assets relative to root
-      publicPath: "/",
-      // can use hash, contenthash or chunkhash
-      // helpful to implement long term caching on the browser
-      filename: "[name].[contenthash].js",
-    },
-    devServer: {
-      // the port number that the dev server should serve on
-      port: 8080,
-      // serve index.html page in place of any 404 response (when using the HTML5 history API)
-      historyApiFallback: true,
-    },
-    plugins: [
-      // TODO: add the webpack module federation plugin for MFE
-    ],
-  };
-
-  // Dev config -> merge of dev + common (dev overrides common)
-  return merge(commonConfig, devConfig);
-};
-```
-
-Add a `public/index.html` file
+Add index.html
 
 ```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width" />
-    <title>React MFE talk - Demo</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-    </style>
-  </head>
+<html>
   <body>
-    <div id="root"></div>
-    <script src="../src/index.tsx"></script>
+    <h1>Test</h1>
   </body>
 </html>
 ```
 
-Add a `src/index.tsx` file
+Add start script `parcel index.html`
+
+## Building `header` MFE
+
+```html
+<!--index.html-->
+<html>
+  <body>
+    <div id="root"></div>
+    <script src="./index.tsx"></script>
+  </body>
+</html>
+```
 
 ```tsx
+// index.tsx
 import React from "react";
 import { render } from "react-dom";
 
-const App = () => {
-  return (
-    <div>
-      <h1>Container</h1>
-    </div>
-  );
-};
+(() => {
+  const mount = (id: string) => {
+    render(
+      <div style={{ height: "60px", background: "black" }} />,
+      document.getElementById(id)
+    );
+  };
 
-render(<App />, document.getElementById("root"));
+  window["mountHeader"] = mount;
+
+  if (!window["container-context"]) {
+    mount("root");
+  }
+})();
 ```
 
-## Creating header
+Run the `header` MFE with this script: `parcel index.html --port 3001`
 
-- Create a header directory in the root of the repo
-- Copy paste `config` `public` and `src` directory from container to header
-- Copy paste `package.json` and `tsconfig.json` from container to header
-- Run `npm i` on the header directory
-- Change port in `webpack.dev.js` to 8001
+Parcel generates the following files in `dist`:
+
+- `index.html`
+- `header.f69400ca.js` (some hash based on either content or filename depending on whether you pass parameter: `--no-content-hash`)
+
+At the time of writing parcel (v1) has no way of creating files without hash in the name.
+See [2056](https://github.com/parcel-bundler/parcel/issues/2056) and [2403](https://github.com/parcel-bundler/parcel/issues/2403).
+
+We create a mount function
+
+```tsx
+import { render } from "react-dom";
+
+const mount = (id: string) => {
+  render(
+    <div style={{ height: "60px", background: "black" }} />,
+    document.getElementById(id)
+  );
+};
+```
+
+This is because we want the `header` MFE to be loaded into the `root` element. But in `container`, the `header` MFE should be loaded into a div with id `header`. So, when we run the `header` MFE on port 3001, the following check will run
+
+```ts
+if (!window["container-context"]) {
+  mount("root");
+}
+```
+
+`window["container-context"]` is a variable to track whether the MFE is loaded in container or as a standalone app. If its a standalone app, then mount is called to mount MFE onto `root`.
+
+If it is the `container-context`, then container will invoke mount as needed.
+
+## Building `container` shell
+
+```html
+<html>
+  <body>
+    <div id="root"></div>
+    <script>
+      window["container-context"] = true;
+    </script>
+    <script src="http://localhost:3001/header.f69400ca.js"></script>
+    <script src="./index.tsx"></script>
+  </body>
+</html>
+```
+
+```tsx
+import React from "react";
+import ReactDOM from "react-dom";
+
+(() => {
+  const App = () => {
+    return (
+      <div>
+        <div id="header" />
+        <h1>Container</h1>
+      </div>
+    );
+  };
+
+  ReactDOM.render(<App />, document.getElementById("root"));
+  window["mountHeader"]("header");
+})();
+```
+
+In the HTML, we load `<script src="http://localhost:3001/header.f69400ca.js"></script>` first before `index.tsx` because `index.tsx` needs `window["mountHeader"]` function to be defined which is done by the header MFE.
+The `container` then loads its app onto root and then the mount function (`window["mountHeader"]`) for `header` MFE is called and loads header into the container.
+
+The container app should run successfully and should also render the header.
+
+While this works, there are two problems you should already be able to notice:
+
+1. You have to update the script hash manually (every time it changes) and its not sustainable.
+2. If you look at the `header.xxxxx.js` file loaded in your network tab, you will see that `parcel-bundler` from `header` has bundled the `react` and `react-dom` dependency inside. You will also see the same dependency loaded again inside `container.xxxxx.js`. So, the same dependencies are loaded multiple times (duplicate dependencies).
+
+These are a few problems (amongst others) that webpack module federation solves out of the box for you.
+See `02-webpack-module-federation` directory for an example with webpack module federation.
