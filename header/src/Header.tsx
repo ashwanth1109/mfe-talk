@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
+import Button from "@material-ui/core/Button";
 
 const Container = styled.div`
   width: 100%;
@@ -8,12 +9,27 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 `;
 
-const Header = () => {
+const ButtonContainer = styled.div`
+  position: absolute;
+  right: 24px;
+`;
+
+const Header = ({ history }: any) => {
   return (
     <Container>
       <h1>Header</h1>
+      <ButtonContainer>
+        <Button
+          variant="outlined"
+          style={{ color: "white", borderColor: "white" }}
+          onClick={() => history.push("/auth/login")}
+        >
+          Login
+        </Button>
+      </ButtonContainer>
     </Container>
   );
 };

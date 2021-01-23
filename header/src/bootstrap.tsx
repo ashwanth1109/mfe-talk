@@ -2,16 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Header from "./Header";
 
-const mount = (el: Element) => {
-  ReactDOM.render(<Header />, el);
+const mount = (el: Element | null, history: any) => {
+  ReactDOM.render(<Header history={history} />, el);
 };
 
-if (process.env.NODE_ENV === "development") {
-  const rootNode = document.querySelector("#header-component-root");
-
-  if (rootNode) {
-    mount(rootNode);
-  }
+if (!((window as unknown) as CustomWindow).containerContext) {
+  mount(document.getElementById("root"), null);
 }
 
 export { mount };

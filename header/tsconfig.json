@@ -8,6 +8,7 @@
   },
   "include": [
     "src/**/*",
-    "../container/src/typings/header.d.ts"
+    "../container/src/typings/header.d.ts",
+    "../container/src/typings/window.d.ts"
   ]
 }

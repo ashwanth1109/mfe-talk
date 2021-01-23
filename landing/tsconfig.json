@@ -8,6 +8,7 @@
   },
   "include": [
     "src/**/*",
-    "../container/src/typings/landing.d.ts"
+    "../container/src/typings/landing.d.ts",
+    "../container/src/typings/window.d.ts"
   ]
 }

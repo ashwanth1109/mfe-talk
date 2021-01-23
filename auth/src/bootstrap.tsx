@@ -1,24 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
+import { Router } from "react-router-dom";
+import { createBrowserHistory } from "history";
 
 import App from "./App";
 
-const mount = (el: Element) => {
+const mount = (el: HTMLElement | null, history: any) => {
   ReactDOM.render(
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>,
+    <Router history={history}>
+      <App history={history} />
+    </Router>,
     el
   );
 };
 
-if (process.env.NODE_ENV === "development") {
-  const rootNode = document.querySelector("#auth-module-root");
-
-  if (rootNode) {
-    mount(rootNode);
-  }
+if (!((window as unknown) as CustomWindow).containerContext) {
+  mount(document.getElementById("root"), createBrowserHistory());
 }
 
 export { mount };
