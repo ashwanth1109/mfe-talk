@@ -1,5 +1,5 @@
 {
-  "name": "container",
+  "name": "header",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,17 +7,8 @@
     "start": "webpack serve --config webpack.dev.js"
   },
   "keywords": [],
-  "author": "Ashwanth A R <ashwanth1109@gmail.com>",
-  "license": "MIT",
-  "dependencies": {
-    "@emotion/react": "11.1.4",
-    "@emotion/styled": "11.0.0",
-    "@material-ui/core": "4.11.2",
-    "react": "17.0.1",
-    "react-dom": "17.0.1",
-    "react-router-dom": "5.2.0",
-    "rxjs": "6.6.3"
-  },
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
     "@babel/core": "7.12.10",
     "@babel/preset-react": "7.12.10",
@@ -34,5 +25,14 @@
     "webpack-cli": "4.3.1",
     "webpack-dev-server": "3.11.1",
     "webpack-merge": "5.7.3"
+  },
+  "dependencies": {
+    "@emotion/react": "11.1.4",
+    "@emotion/styled": "11.0.0",
+    "@material-ui/core": "4.11.2",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-router-dom": "5.2.0",
+    "rxjs": "6.6.3"
   }
 }

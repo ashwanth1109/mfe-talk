@@ -6,5 +6,8 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["**/*"]
+  "include": [
+    "src/**/*",
+    "../container/src/typings/auth.d.ts"
+  ]
 }

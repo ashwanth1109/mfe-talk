@@ -7,8 +7,8 @@
     "start": "webpack serve --config webpack.dev.js"
   },
   "keywords": [],
-  "author": "Ashwanth A R <ashwanth1109@gmail.com>",
-  "license": "MIT",
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
     "@babel/core": "7.12.10",
     "@babel/preset-react": "7.12.10",
@@ -16,6 +16,7 @@
     "@types/node": "14.14.20",
     "@types/react": "17.0.0",
     "@types/react-dom": "17.0.0",
+    "@types/react-router-dom": "5.1.7",
     "babel-loader": "8.2.2",
     "html-webpack-plugin": "4.5.1",
     "ts-node": "9.1.1",

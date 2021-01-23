@@ -1,27 +1,36 @@
 const { merge } = require("webpack-merge");
+const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const commonConfig = require("./webpack.common");
+const packageJson = require("./package.json");
 
 module.exports = () => {
   const devConfig = {
     mode: "development",
     output: {
-      // where webpack will output assets relative to root
-      publicPath: "/",
-      // can use hash, contenthash or chunkhash
-      // helpful to implement long term caching on the browser
+      publicPath: "http://localhost:8081/",
       filename: "[name].[contenthash].js",
     },
     devServer: {
-      // the port number that the dev server should serve on
-      port: 8001,
-      // serve index.html page in place of any 404 response (when using the HTML5 history API)
-      historyApiFallback: true,
+      port: 8081,
+      historyApiFallback: {
+        index: "/",
+      },
     },
     plugins: [
-      // TODO: add the webpack module federation plugin for MFE
+      new ModuleFederationPlugin({
+        name: "header",
+        filename: "remoteEntry.js",
+        exposes: {
+          "./HeaderComponent": "./src/bootstrap",
+        },
+        shared: packageJson.dependencies,
+      }),
+      new HtmlWebpackPlugin({
+        template: "./public/index.html",
+      }),
     ],
   };
 
-  // Dev config -> merge of dev + common (dev overrides common)
   return merge(commonConfig, devConfig);
 };

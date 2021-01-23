@@ -1,5 +1,6 @@
 const { merge } = require("webpack-merge");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const commonConfig = require("./webpack.common");
 const packageJson = require("./package.json");
 
@@ -7,11 +8,11 @@ module.exports = () => {
   const devConfig = {
     mode: "development",
     output: {
-      publicPath: "http://localhost:8003/",
+      publicPath: "http://localhost:8083/",
       filename: "[name].[contenthash].js",
     },
     devServer: {
-      port: 8003,
+      port: 8083,
       historyApiFallback: {
         index: "/",
       },
@@ -21,9 +22,12 @@ module.exports = () => {
         name: "auth",
         filename: "remoteEntry.js",
         exposes: {
-          "./AuthModule": "./index",
+          "./AuthModule": "./src/bootstrap",
         },
         shared: packageJson.dependencies,
+      }),
+      new HtmlWebpackPlugin({
+        template: "./public/index.html",
       }),
     ],
   };

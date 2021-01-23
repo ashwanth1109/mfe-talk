@@ -1,11 +1,11 @@
 import React from "react";
-import { render } from "react-dom";
 import styled from "@emotion/styled";
 
 const Container = styled.div`
   width: 100%;
-  height: 60px;
-  background-color: dodgerblue;
+  height: 100%;
+  background-color: #282c34;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,9 +14,9 @@ const Container = styled.div`
 const App = () => {
   return (
     <Container>
-      <h1>Header</h1>
+      <h1>Landing</h1>
     </Container>
   );
 };
 
-render(<App />, document.getElementById("root"));
+export default App;
