@@ -1,21 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Router } from "react-router-dom";
-import { createBrowserHistory } from "history";
+import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
 
-const mount = (el: HTMLElement | null, history: any) => {
+const mount = (el: HTMLElement | null) => {
   ReactDOM.render(
-    <Router history={history}>
-      <App history={history} />
-    </Router>,
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>,
     el
   );
 };
 
 if (!((window as unknown) as CustomWindow).containerContext) {
-  mount(document.getElementById("root"), createBrowserHistory());
+  mount(document.getElementById("root"));
 }
 
 export { mount };

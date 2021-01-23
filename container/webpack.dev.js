@@ -16,17 +16,7 @@ module.exports = () => {
         index: "/",
       },
     },
-    plugins: [
-      new ModuleFederationPlugin({
-        name: "container",
-        remotes: {
-          header: "header@http://localhost:8081/remoteEntry.js",
-          landing: "landing@http://localhost:8082/remoteEntry.js",
-          auth: "auth@http://localhost:8083/remoteEntry.js",
-        },
-        shared: packageJson.dependencies,
-      }),
-    ],
+    plugins: [],
   };
 
   return merge(commonConfig, devConfig);

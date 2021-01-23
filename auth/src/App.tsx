@@ -31,18 +31,8 @@ const AuthFormContainer = styled.div`
 
 const selectedStyle = { borderBottom: "2px solid dodgerblue", borderRadius: 0 };
 
-const App = ({ history }: any) => {
+const App = () => {
   const [val, setVal] = useState<number | null>(null);
-
-  useEffect(() => {
-    if (history.location.pathname === "/auth/login") setVal(0);
-    else if (history.location.pathname === "/auth/register") setVal(1);
-  }, [history]);
-
-  const handleChange = useCallback((newVal) => {
-    history.push(newVal ? "/auth/register" : "/auth/login");
-    setVal(newVal);
-  }, []);
 
   return (
     <Container>
@@ -57,13 +47,13 @@ const App = ({ history }: any) => {
       >
         <ButtonContainer>
           <Button
-            onClick={() => handleChange(0)}
+            onClick={() => setVal(0)}
             style={val === 0 ? selectedStyle : {}}
           >
             Login
           </Button>
           <Button
-            onClick={() => handleChange(1)}
+            onClick={() => setVal(1)}
             style={val === 1 ? selectedStyle : {}}
           >
             Register

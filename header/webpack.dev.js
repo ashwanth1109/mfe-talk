@@ -18,14 +18,6 @@ module.exports = () => {
       },
     },
     plugins: [
-      new ModuleFederationPlugin({
-        name: "header",
-        filename: "remoteEntry.js",
-        exposes: {
-          "./HeaderComponent": "./src/bootstrap",
-        },
-        shared: packageJson.dependencies,
-      }),
       new HtmlWebpackPlugin({
         template: "./public/index.html",
       }),

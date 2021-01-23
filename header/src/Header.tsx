@@ -17,7 +17,7 @@ const ButtonContainer = styled.div`
   right: 24px;
 `;
 
-const Header = ({ history }: any) => {
+const Header = () => {
   return (
     <Container>
       <h1>Header</h1>
@@ -25,7 +25,7 @@ const Header = ({ history }: any) => {
         <Button
           variant="outlined"
           style={{ color: "white", borderColor: "white" }}
-          onClick={() => history.push("/auth/login")}
+          onClick={() => null}
         >
           Login
         </Button>
