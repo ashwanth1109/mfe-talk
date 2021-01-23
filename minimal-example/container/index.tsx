@@ -1,6 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
+type DomRenderTarget = HTMLElement | null;
+declare global {
+  interface Window {
+    containerContext: boolean;
+    mountHeader: (el: DomRenderTarget) => void;
+  }
+}
+
 const App = () => {
   return (
     <div>
