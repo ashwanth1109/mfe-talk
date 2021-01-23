@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   // starting point of application, and here webpack starts bundling
-  entry: "./src/index",
+  entry: "./index",
   // options for resolving module requests
   resolve: {
     // extensions that are allowed when resolving modules (in order)
@@ -35,7 +35,7 @@ module.exports = {
     // useful for webpack bundles that include a hash in the filename.
     new HtmlWebpackPlugin({
       // supply base template for plugin to generate HTML from
-      template: "./public/index.html",
+      template: "./index.html",
     }),
   ],
 };

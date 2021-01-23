@@ -19,7 +19,7 @@ const capitalizeFirstLetter = (str: string) =>
     console.log(`Generating micro-frontend at path: ${modulePath}`);
     const cwd = path.resolve(__dirname, `..${modulePath}`);
 
-    const dirExists = fs.existsSync(`.${modulePath}`);
+    const dirExists = fs.existsSync(`..${modulePath}`);
 
     if (dirExists) {
       throw new Error("Package already seems to exist!");
@@ -44,13 +44,14 @@ const capitalizeFirstLetter = (str: string) =>
       "webpack-merge@5.7.3",
     ];
 
-    // `react-router-dom` and `rxjs` need to be manually installed
     const deps = [
       "react@17.0.1",
       "react-dom@17.0.1",
       "@emotion/react@11.1.4",
       "@emotion/styled@11.0.0",
       "@material-ui/core@4.11.2",
+      "react-router-dom@5.2.0",
+      "rxjs@6.6.3",
     ];
 
     cp.spawnSync(
@@ -62,21 +63,19 @@ const capitalizeFirstLetter = (str: string) =>
       }
     );
 
-    const data = fs.readFileSync(`.${modulePath}/package.json`);
+    const data = fs.readFileSync(`..${modulePath}/package.json`);
     const dataAsString = data.toString().replace(/\^/g, "");
     const packageJson = JSON.parse(dataAsString);
     delete packageJson.scripts.test;
     packageJson.scripts.start = "webpack serve --config webpack.dev.js";
-    packageJson.scripts.build = "webpack --config webpack.prod.js";
 
     const readPromises: Promise<Buffer>[] = [
-      readFile("scripts/webpack-common"),
-      readFile("scripts/webpack-dev"),
-      readFile("scripts/webpack-prod"),
-      readFile("scripts/ts-config"),
-      readFile("scripts/index-html"),
-      readFile("scripts/bootstrap"),
-      readFile("scripts/app"),
+      readFile("templates/webpack-common"),
+      readFile("templates/webpack-dev"),
+      readFile("templates/tsconfig-js"),
+      readFile("templates/index-html"),
+      readFile("templates/index-tsx"),
+      readFile("templates/bootstrap-tsx"),
     ];
 
     const files = await Promise.all(readPromises);
@@ -93,22 +92,17 @@ const capitalizeFirstLetter = (str: string) =>
       outputFiles.push(content);
     }
 
-    fs.ensureDirSync(`.${modulePath}/public`);
-    fs.ensureDirSync(`.${modulePath}/src`);
-
     const writePromises: Promise<void>[] = [
       writeFile(
-        `.${modulePath}/package.json`,
+        `..${modulePath}/package.json`,
         JSON.stringify(packageJson, null, 2)
       ),
-      writeFile(`.${modulePath}/webpack.common.js`, outputFiles[0]),
-      writeFile(`.${modulePath}/webpack.dev.js`, outputFiles[1]),
-      writeFile(`.${modulePath}/webpack.prod.js`, outputFiles[2]),
-      writeFile(`.${modulePath}/tsconfig.json`, outputFiles[3]),
-      writeFile(`.${modulePath}/public/index.html`, outputFiles[4]),
-      writeFile(`.${modulePath}/src/index.tsx`, 'import("./bootstrap");\n'),
-      writeFile(`.${modulePath}/src/bootstrap.tsx`, outputFiles[5]),
-      writeFile(`.${modulePath}/src/App.tsx`, outputFiles[6]),
+      writeFile(`..${modulePath}/webpack.common.js`, outputFiles[0]),
+      writeFile(`..${modulePath}/webpack.dev.js`, outputFiles[1]),
+      writeFile(`..${modulePath}/tsconfig.json`, outputFiles[2]),
+      writeFile(`..${modulePath}/index.html`, outputFiles[3]),
+      writeFile(`..${modulePath}/index.tsx`, outputFiles[4]),
+      writeFile(`..${modulePath}/bootstrap.tsx`, outputFiles[5]),
     ];
 
     await Promise.all(writePromises);

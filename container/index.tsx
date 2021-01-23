@@ -4,7 +4,7 @@ import { render } from "react-dom";
 const App = () => {
   return (
     <div>
-      <h1>Header</h1>
+      <h1>Container</h1>
     </div>
   );
 };

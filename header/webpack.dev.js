@@ -19,7 +19,6 @@ module.exports = () => {
     },
     plugins: [
       // TODO: add the webpack module federation plugin for MFE
-
     ],
   };
 
