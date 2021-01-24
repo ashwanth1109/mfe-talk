@@ -1,6 +1,5 @@
 const { merge } = require("webpack-merge");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const commonConfig = require("./webpack.common");
 const packageJson = require("./package.json");
 
@@ -22,12 +21,9 @@ module.exports = () => {
         name: "auth",
         filename: "remoteEntry.js",
         exposes: {
-          "./AuthModule": "./src/bootstrap",
+          "./AuthPage": "./src/bootstrap",
         },
         shared: packageJson.dependencies,
-      }),
-      new HtmlWebpackPlugin({
-        template: "./public/index.html",
       }),
     ],
   };

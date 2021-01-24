@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Card } from "@material-ui/core";
 import styled from "@emotion/styled";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, useHistory, useLocation } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -33,6 +33,17 @@ const selectedStyle = { borderBottom: "2px solid dodgerblue", borderRadius: 0 };
 
 const App = () => {
   const [val, setVal] = useState<number | null>(null);
+  const history = useHistory();
+  const location = useLocation();
+
+  const syncTabToReflectRoute = () => {
+    if (history.location.pathname === "/auth/login") setVal(0);
+    else if (history.location.pathname === "/auth/register") setVal(1);
+  };
+
+  useEffect(() => {
+    syncTabToReflectRoute();
+  }, [location]);
 
   return (
     <Container>
@@ -47,13 +58,13 @@ const App = () => {
       >
         <ButtonContainer>
           <Button
-            onClick={() => setVal(0)}
+            onClick={() => history.push("/auth/login")}
             style={val === 0 ? selectedStyle : {}}
           >
             Login
           </Button>
           <Button
-            onClick={() => setVal(1)}
+            onClick={() => history.push("/auth/register")}
             style={val === 1 ? selectedStyle : {}}
           >
             Register

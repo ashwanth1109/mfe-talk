@@ -1,12 +1,18 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { render } from "react-dom";
 import Header from "./Header";
 
+declare global {
+  interface Window {
+    containerContext: boolean;
+  }
+}
+
 const mount = (el: Element | null) => {
-  ReactDOM.render(<Header />, el);
+  render(<Header />, el);
 };
 
-if (!((window as unknown) as CustomWindow).containerContext) {
+if (!window.containerContext) {
   mount(document.getElementById("root"));
 }
 

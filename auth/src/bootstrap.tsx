@@ -4,6 +4,12 @@ import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
 
+declare global {
+  interface Window {
+    containerContext: boolean;
+  }
+}
+
 const mount = (el: HTMLElement | null) => {
   ReactDOM.render(
     <BrowserRouter>
@@ -13,7 +19,7 @@ const mount = (el: HTMLElement | null) => {
   );
 };
 
-if (!((window as unknown) as CustomWindow).containerContext) {
+if (!window.containerContext) {
   mount(document.getElementById("root"));
 }
 

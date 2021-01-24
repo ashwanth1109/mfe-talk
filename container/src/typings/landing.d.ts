@@ -1,4 +1,4 @@
-declare module "landing/LandingModule" {
+declare module "landing/LandingPage" {
   const mount: (el: HTMLDivElement | null) => null;
 
   export { mount };

@@ -1,5 +1,8 @@
-declare module "auth/AuthModule" {
-  const mount: (el: HTMLDivElement | null, history: any) => null;
+declare module "auth/AuthPage" {
+  const mount: (
+    el: HTMLDivElement | null,
+    history?: import("history").History
+  ) => null;
 
   export { mount };
 }
