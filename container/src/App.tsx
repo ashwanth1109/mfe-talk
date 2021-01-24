@@ -9,7 +9,7 @@ const PageBody = styled.div`
 const App = () => {
   return (
     <div>
-      <h1 style={{ color: "white" }}>Container</h1>
+      <h1>Container</h1>
     </div>
   );
 };
