@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
+import { Router } from "react-router-dom";
 
 import App from "./App";
 import { History, createBrowserHistory } from "history";
@@ -11,17 +11,17 @@ declare global {
   }
 }
 
-const mount = (el: HTMLElement | null) => {
+const mount = (el: HTMLElement | null, history: History) => {
   ReactDOM.render(
-    <BrowserRouter>
+    <Router history={history}>
       <App />
-    </BrowserRouter>,
+    </Router>,
     el
   );
 };
 
 if (!window.containerContext) {
-  mount(document.getElementById("root"));
+  mount(document.getElementById("root"), createBrowserHistory());
 }
 
 export { mount };

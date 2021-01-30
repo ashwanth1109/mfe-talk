@@ -25,7 +25,7 @@ const ButtonContainer = styled.div`
   right: 24px;
 `;
 
-const mount = (el: Element | null) => {
+const mount = (el: Element | null, history?: History) => {
   render(
     <Container>
       <h1>Header</h1>
@@ -33,7 +33,7 @@ const mount = (el: Element | null) => {
         <Button
           variant="outlined"
           style={{ color: "white", borderColor: "white" }}
-          onClick={() => null}
+          onClick={() => history?.push("/auth/login")}
         >
           Login
         </Button>

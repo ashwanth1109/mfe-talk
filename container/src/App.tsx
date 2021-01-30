@@ -1,9 +1,11 @@
-import React from "react";
+import React, { lazy } from "react";
 import styled from "@emotion/styled";
 import Header from "./remote_modules/header";
 import { Route, Switch } from "react-router-dom";
-import Landing from "./remote_modules/landing";
-import Auth from "./remote_modules/auth";
+import { Suspense } from "react";
+
+const Landing = lazy(() => import("./remote_modules/landing"));
+const Auth = lazy(() => import("./remote_modules/auth"));
 
 const PageBody = styled.div`
   width: 100vw;
@@ -15,14 +17,16 @@ const App = () => {
     <div>
       <Header />
       <PageBody>
-        <Switch>
-          <Route path="/auth">
-            <Auth />
-          </Route>
-          <Route path="/">
-            <Landing />
-          </Route>
-        </Switch>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Switch>
+            <Route path="/auth">
+              <Auth />
+            </Route>
+            <Route path="/">
+              <Landing />
+            </Route>
+          </Switch>
+        </Suspense>
       </PageBody>
     </div>
   );

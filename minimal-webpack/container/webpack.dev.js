@@ -23,6 +23,13 @@ module.exports = () => {
     },
     plugins: [
       // TODO: add the webpack module federation plugin for container
+      new ModuleFederationPlugin({
+        name: "container",
+        remotes: {
+          header: "header@http://localhost:3001/remoteEntry.js",
+        },
+        shared: packageJson.dependencies,
+      }),
     ],
   };
 
