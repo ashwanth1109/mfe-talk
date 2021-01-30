@@ -16,7 +16,16 @@ module.exports = () => {
         index: "/",
       },
     },
-    plugins: [],
+    plugins: [
+      new ModuleFederationPlugin({
+        name: "header",
+        filename: "remoteEntry.js",
+        exposes: {
+          "./HeaderComponent": "./src/bootstrap",
+        },
+        shared: packageJson.dependencies,
+      }),
+    ],
   };
 
   return merge(commonConfig, devConfig);

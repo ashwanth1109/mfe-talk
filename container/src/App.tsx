@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
+import Header from "./remote_modules/header";
+import { Route, Switch } from "react-router-dom";
 
 const PageBody = styled.div`
   width: 100vw;
@@ -9,7 +11,14 @@ const PageBody = styled.div`
 const App = () => {
   return (
     <div>
-      <h1>Container</h1>
+      <Header />
+      <PageBody>
+        <Switch>
+          <Route path="/">
+            <h1>Container</h1>
+          </Route>
+        </Switch>
+      </PageBody>
     </div>
   );
 };
