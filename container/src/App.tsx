@@ -2,6 +2,8 @@ import React from "react";
 import styled from "@emotion/styled";
 import Header from "./remote_modules/header";
 import { Route, Switch } from "react-router-dom";
+import Landing from "./remote_modules/landing";
+import Auth from "./remote_modules/auth";
 
 const PageBody = styled.div`
   width: 100vw;
@@ -14,8 +16,11 @@ const App = () => {
       <Header />
       <PageBody>
         <Switch>
+          <Route path="/auth">
+            <Auth />
+          </Route>
           <Route path="/">
-            <h1>Container</h1>
+            <Landing />
           </Route>
         </Switch>
       </PageBody>
